@@ -10,6 +10,7 @@ local LocalPlayer = Players.LocalPlayer;
 local Mouse = LocalPlayer:GetMouse();
 -- Cursor
 -- ModalElement
+-- f
 local ProtectGui = protectgui or (syn and syn.protect_gui) or (function() end);
 
 local ScreenGui = Instance.new('ScreenGui');
@@ -3494,15 +3495,6 @@ function Library:CreateWindow(...)
         Window.Tabs[Name] = Tab;
         return Tab;
     end;
-
-    local ModalElement = Library:Create('TextButton', {
-        BackgroundTransparency = 1;
-        Size = UDim2.new(0, 0, 0, 0);
-        Visible = true;
-        Text = '';
-        Modal = false;
-        Parent = ScreenGui;
-    });
 
     local TransparencyCache = {};
     local Toggled = false;
