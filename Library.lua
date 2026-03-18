@@ -8,7 +8,7 @@ local TweenService = game:GetService('TweenService');
 local RenderStepped = RunService.RenderStepped;
 local LocalPlayer = Players.LocalPlayer;
 local Mouse = LocalPlayer:GetMouse();
-
+-- Cursor
 local ProtectGui = protectgui or (syn and syn.protect_gui) or (function() end);
 
 local ScreenGui = Instance.new('ScreenGui');
@@ -28,7 +28,7 @@ local Library = {
     RegistryMap = {};
 
     HudRegistry = {};
- 
+
     FontColor = Color3.fromRGB(255, 255, 255);
     MainColor = Color3.fromRGB(28, 28, 28);
     BackgroundColor = Color3.fromRGB(20, 20, 20);
@@ -692,7 +692,7 @@ do
                 SortOrder = Enum.SortOrder.LayoutOrder;
                 Parent = ContextMenu.Inner;
             });
-            
+
             Library:Create('UIPadding', {
                 Name = 'Padding',
                 PaddingLeft = UDim.new(0, 4),
@@ -1704,7 +1704,7 @@ do
             ZIndex = 7;
             Parent = TextBoxInner;
         })
-        Toggle
+
         local Box = Library:Create('TextBox', {
             BackgroundTransparency = 1;
 
@@ -3511,20 +3511,21 @@ function Library:CreateWindow(...)
         if Fading then
             return;
         end;
-    
+
         local FadeTime = Config.MenuFadeTime;
         Fading = true;
         Toggled = (not Toggled);
         ModalElement.Modal = Toggled;
-    
+
         if Toggled then
             -- A bit scuffed, but if we're going from not toggled -> toggled we want to show the frame immediately so that the fade is visible.
             Outer.Visible = true;
+
         end;
-    
+
         for _, Desc in next, Outer:GetDescendants() do
             local Properties = {};
-    
+
             if Desc:IsA('ImageLabel') then
                 table.insert(Properties, 'ImageTransparency');
                 table.insert(Properties, 'BackgroundTransparency');
@@ -3535,33 +3536,34 @@ function Library:CreateWindow(...)
             elseif Desc:IsA('UIStroke') then
                 table.insert(Properties, 'Transparency');
             end;
-    
+
             local Cache = TransparencyCache[Desc];
-    
+
             if (not Cache) then
                 Cache = {};
                 TransparencyCache[Desc] = Cache;
             end;
-    
+
             for _, Prop in next, Properties do
                 if not Cache[Prop] then
                     Cache[Prop] = Desc[Prop];
                 end;
-    
+
                 if Cache[Prop] == 1 then
                     continue;
                 end;
-    
+
                 TweenService:Create(Desc, TweenInfo.new(FadeTime, Enum.EasingStyle.Linear), { [Prop] = Toggled and Cache[Prop] or 1 }):Play();
             end;
         end;
-    
+
         task.wait(FadeTime);
-    
+
         Outer.Visible = Toggled;
-    
+
         Fading = false;
     end
+
     Library:GiveSignal(InputService.InputBegan:Connect(function(Input, Processed)
         if type(Library.ToggleKeybind) == 'table' and Library.ToggleKeybind.Type == 'KeyPicker' then
             if Input.UserInputType == Enum.UserInputType.Keyboard and Input.KeyCode.Name == Library.ToggleKeybind.Value then
